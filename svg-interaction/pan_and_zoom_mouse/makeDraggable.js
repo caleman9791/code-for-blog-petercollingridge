@@ -1,4 +1,4 @@
-var makeDraggable = (function() {
+var makeDraggable = (function () {
     function makeDraggable(svg, element) {
         var selected = false;
 
@@ -11,14 +11,16 @@ var makeDraggable = (function() {
             translate.setTranslate(0, 0);
             element.transform.baseVal.insertItemBefore(translate, 0);
         }
-        
+
         svg.addEventListener('mousedown', startDrag);
         svg.addEventListener('mousemove', drag);
         svg.addEventListener('mouseup', endDrag);
 
         function getMousePosition(evt) {
             var CTM = svg.getScreenCTM();
-            if (evt.touches) { evt = evt.touches[0]; }
+            if (evt.touches) {
+                evt = evt.touches[0];
+            }
             return {
                 x: (evt.clientX - CTM.e) / CTM.a,
                 y: (evt.clientY - CTM.f) / CTM.d
@@ -42,7 +44,7 @@ var makeDraggable = (function() {
                 transform.setTranslate(coord.x - offset.x, coord.y - offset.y);
             }
         }
-  
+
         function endDrag(evt) {
             selected = false;
         }
@@ -50,18 +52,18 @@ var makeDraggable = (function() {
         function zoom(evt) {
             evt.stopPropagation();
             evt.preventDefault();
-          
+
             var scaleStep = evt.wheelDelta > 0 ? 1.25 : 0.8;
 
             var newMatrix = currentZoomMatrix.multiply(matrix);
-  container.transform.baseVal.initialize(svg.createSVGTransformFromMatrix(newZoomMatrix));
+            container.transform.baseVal.initialize(svg.createSVGTransformFromMatrix(newZoomMatrix));
         }
     }
 
     return {
-        byClassName: function(className) {
+        byClassName: function (className) {
             // Get SVGs
-            document.querySelectorAll('svg').forEach(function(svg) {
+            document.querySelectorAll('svg').forEach(function (svg) {
                 // Get elements
                 var elements = svg.getElementsByClassName(className);
                 for (var i = 0; i < elements.length; i++) {
